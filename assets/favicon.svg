@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="oro" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e4caa0"/>
+      <stop offset="50%" stop-color="#c9a25e"/>
+      <stop offset="100%" stop-color="#9b7236"/>
+    </linearGradient>
+  </defs>
+  <!-- Sfondo verde ottico scuro -->
+  <rect width="64" height="64" rx="14" fill="#132622"/>
+  <rect x="2.5" y="2.5" width="59" height="59" rx="11.5" fill="none" stroke="#a67c3d" stroke-width="1" stroke-opacity="0.35"/>
+  <!-- Monogramma R elegante -->
+  <path fill="url(#oro)" fill-rule="evenodd" d="
+    M 17 16
+    H 34
+    C 41.8 16 46.5 19.8 46.5 25
+    C 46.5 29.3 43.2 32.5 38 33.3
+    L 45.8 45.8
+    C 46.8 47.4 47.8 48 49.5 48
+    V 49
+    H 41
+    L 33.8 34.5
+    H 26.5
+    V 46.5
+    H 29.5
+    V 49
+    H 17
+    V 46.5
+    H 20.5
+    V 18.5
+    H 17
+    Z
+    M 26.5 18.8
+    V 32
+    H 33.5
+    C 38 32 40.8 29.5 40.8 25.4
+    C 40.8 21.3 38 18.8 33.5 18.8
+    Z
+  "/>
+</svg>
