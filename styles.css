@@ -334,7 +334,10 @@ html:not(.is-3d) .velo, html:not(.is-3d) .ingresso, html:not(.is-3d) .chiusura {
   -webkit-backdrop-filter: blur(14px) saturate(.85); backdrop-filter: blur(14px) saturate(.85);
   background: radial-gradient(120% 100% at 50% 50%, rgba(235, 240, 238, .08), rgba(235, 240, 238, .2));
 }
-@media (max-width: 760px) { .is-3d .velo { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); } }
+/* telefono e touch: niente sfocatura in tempo reale (è la cosa più pesante), solo nebbia */
+@media (hover: none), (pointer: coarse) {
+  .is-3d .velo { -webkit-backdrop-filter: none; backdrop-filter: none; background: radial-gradient(120% 100% at 50% 50%, rgba(214, 222, 219, .42), rgba(214, 222, 219, .62)); }
+}
 
 /* ---------- Scritta dorata sul vetro d'ingresso ---------- */
 .is-3d .ingresso {
@@ -420,15 +423,14 @@ html.is-3d body { background: var(--sky-b); transition: background-color .6s eas
 .m-via { stroke: rgba(201, 162, 94, .6); stroke-width: 1.6; }
 .m-via-media { stroke: rgba(216, 176, 106, .78); stroke-width: 2.4; }
 .m-via-grande { stroke: #C9A25E; stroke-width: 3.2; }
-.m-battisti { stroke: #F3C56C; stroke-width: 4.5; filter: drop-shadow(0 0 6px rgba(243, 197, 108, .6)); }
+.m-battisti { stroke: #F3C56C; stroke-width: 5; }
 .m-etichetta { fill: #E9D9B0; font: 600 calc(36px / var(--zoom, 1)) var(--f-body); text-anchor: middle; paint-order: stroke; stroke: #0B1714; stroke-width: calc(9px / var(--zoom, 1)); }
 .m-pin circle { fill: #F3C56C; }
 .m-pin .m-bordo { fill: #0B1714; }
-.m-pin .m-alone { fill: rgba(243, 197, 108, .2); stroke: #F3C56C; stroke-width: 2; transform-box: fill-box; transform-origin: center; animation: pin 2.4s ease-out infinite; }
 @keyframes pin { from { transform: scale(.6); opacity: 1; } to { transform: scale(1.7); opacity: 0; } }
-.calmo .m-pin .m-alone { animation: none; }
+.calmo .m-onda { animation: none; opacity: 0; }
 .m-credito { fill: rgba(233, 217, 176, .6); font: 400 22px var(--f-body); }
-@media (max-width: 760px), (max-aspect-ratio: 4/5) { .is-3d .mappa { width: 62vw; } }
+@media (max-width: 760px), (max-aspect-ratio: 4/5) { .is-3d .mappa { width: 56vw; } }
 @media (max-width: 760px) and (max-height: 700px) { .is-3d .mappa { width: 40vw; } }
 
 /* Il riquadro del testo non ruba i tocchi a foto e mappa: cliccabili solo i suoi link */
@@ -473,7 +475,7 @@ html.is-3d body { background: var(--sky-b); transition: background-color .6s eas
     linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .035) 48%, transparent 66%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-size: auto, 220px 220px;
-  opacity: .09; mix-blend-mode: soft-light;
+  opacity: .045; 
 }
 
 /* ---------- Insegna d'ingresso in serif da negozio storico ---------- */
@@ -572,4 +574,19 @@ html:not(.is-3d) .animata { display: block; margin: .8rem 0 0; font-size: .85rem
     transition-delay: 0s !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---------- Fluidità ---------- */
+/* onda del segnaposto: elemento HTML animato con transform/opacity, non più l'SVG che si ridisegna */
+.mappa-link { position: relative; }
+.m-onda {
+  position: absolute; left: 50%; top: 50%; width: 14%; aspect-ratio: 1; margin: -7% 0 0 -7%;
+  border: 2px solid #F3C56C; border-radius: 50%; background: rgba(243, 197, 108, .18);
+  pointer-events: none; animation: pin 2.4s ease-out infinite;
+}
+/* touch: niente fusioni di colore e filtri sui livelli che si muovono */
+@media (hover: none), (pointer: coarse) {
+  .is-3d .zoom::after { display: none; }
+  .stella { filter: none; mix-blend-mode: normal; }
+  .is-3d .chiusura { -webkit-backdrop-filter: none; backdrop-filter: none; }
 }

@@ -49,6 +49,10 @@
   /* ---------- Profondità ---------- */
   const spacer = document.querySelector('.spacer');
   const skies = [...document.querySelectorAll('.sky')];
+  // Rotella: camera morbida. Dito: lo scorrimento del telefono è già fluido, la camera lo segue da vicino.
+  const SEGUI = matchMedia('(pointer: coarse)').matches ? 16 : 5.5;
+  // colori della barra del browser letti una volta sola (niente getComputedStyle durante lo scroll)
+  const coloreTono = Object.fromEntries(skies.map((s) => [s.dataset.tone, getComputedStyle(s).getPropertyValue('--sky-a').trim()]));
   const clock = document.querySelector('.clock');
   const flaps = [...clock.querySelectorAll('.flap')];
   const PERSP = 1000; // distanza dell'osservatore in px, come la vecchia perspective CSS
@@ -202,7 +206,7 @@
     const ch = chapters[i];
     root.dataset.tone = ch.id;
     // barra del browser su telefono dello stesso colore della vetrina
-    if (themeMeta) themeMeta.setAttribute('content', getComputedStyle(root).getPropertyValue('--sky-a').trim());
+    if (themeMeta && coloreTono[ch.id]) themeMeta.setAttribute('content', coloreTono[ch.id]);
     navLinks.forEach((a) => {
       if (a.classList.contains('brand')) return;
       if (a.getAttribute('href') === `#${ch.id}`) a.setAttribute('aria-current', 'step');
@@ -247,8 +251,7 @@
         el.style.setProperty('--dur', ultimo ? '.2s' : '.07s');
         el.style.setProperty('--delay', i === 0 ? `${k * 0.06}s` : '0s');
         el.classList.remove('go');
-        void el.offsetWidth;
-        el.classList.add('go');
+        requestAnimationFrame(() => requestAnimationFrame(() => { if (el._token === token) el.classList.add('go'); }));
         flipBottom.addEventListener('animationend', () => {
           if (el._token !== token) return;
           shown = v;
@@ -266,7 +269,7 @@
     const dt = Math.min((now - last) / 1000, 0.1);
     last = now;
     // Decadimento esponenziale: stesso movimento a 30, 60 o 120 fps
-    cam += (target - cam) * (1 - Math.exp(-dt * 5.5));
+    cam += (target - cam) * (1 - Math.exp(-dt * SEGUI));
     if (Math.abs(target - cam) < 0.4) cam = target;
     // punto di fuga che segue il cursore, più lento della camera
     const k = 1 - Math.exp(-dt * 3);
@@ -335,18 +338,18 @@
     } catch { return []; }
   }
   function brilla() {
-    if (document.hidden) return;
+    if (document.hidden || raf) return;
     const vivi = conBrillio.filter((b) => b.closest('.plane').classList.contains('is-live'));
     if (!vivi.length) return;
     const b = vivi[Math.floor(Math.random() * vivi.length)];
     const img = b.querySelector('img');
     if (!img.complete || !img.naturalWidth) return;
-    if (!puntiLuce.has(img)) puntiLuce.set(img, trovaLuci(img));
-    const pts = puntiLuce.get(img);
+    if (!puntiLuce.has(img)) puntiLuce.set(img, { pts: trovaLuci(img), W: img.offsetWidth, H: img.offsetHeight });
+    const { pts, W, H } = puntiLuce.get(img);
     if (!pts.length) return;
     const [px, py] = pts[Math.floor(Math.random() * pts.length)];
     // la foto è ritagliata con object-fit: cover, quindi si ricalcola la posizione visibile
-    const W = img.offsetWidth, H = img.offsetHeight, w = img.naturalWidth, h = img.naturalHeight;
+    const w = img.naturalWidth, h = img.naturalHeight;
     const k = Math.max(W / w, H / h);
     const x = (W - w * k) / 2 + px * w * k;
     const y = (H - h * k) / 2 + py * h * k;
@@ -382,7 +385,11 @@
     wake();
   }, { passive: true });
 
+  let ultimaW = innerWidth, ultimaH = innerHeight;
   addEventListener('resize', () => {
+    if (innerWidth === ultimaW && Math.abs(innerHeight - ultimaH) < 160) return;
+    ultimaW = innerWidth; ultimaH = innerHeight;
+    puntiLuce.clear();
     layout();
     target = Math.min(scrollY * K, lastZ);
     for (const p of planes) p.o = -1;
@@ -406,6 +413,11 @@
   });
 
   addEventListener('hashchange', () => goTo(location.hash.slice(1)));
+
+  document.querySelectorAll('.plane img').forEach((img) => {
+    const decodifica = () => img.decode && img.decode().catch(() => {});
+    if (img.complete) decodifica(); else img.addEventListener('load', decodifica, { once: true });
+  });
 
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   layout();
