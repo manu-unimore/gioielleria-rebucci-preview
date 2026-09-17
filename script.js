@@ -55,6 +55,7 @@
   const narrowMq = matchMedia('(max-width: 760px), (max-aspect-ratio: 4/5)');
   const stage = document.querySelector('.stage');
   const velo = document.querySelector('.velo');
+  const world = document.querySelector('.world');
   const chiusura = document.querySelector('.chiusura');
   const mappa = document.querySelector('.mappa');
   const barra = document.querySelector('.avanzamento i');
@@ -113,8 +114,14 @@
       const tx = x * s + vx * (1 - s);
       const ty = y * s + vy * (1 - s);
       p.el.style.transform = `translate(-50%,-50%) translate(${tx.toFixed(3)}vw,${ty.toFixed(3)}vh) scale(${s.toFixed(4)})${p.rot}`;
-      p.el.style.zIndex = String(5000 - Math.round(dz));
-      p.el.style.setProperty('--s', s.toFixed(4)); // serve ai cartellini su telefono
+      // Solo proprietà composite ogni fotogramma (transform, opacity). Ordine di profondità
+      // e scala per i cartellini si aggiornano solo quando cambiano davvero.
+      const zi = 5000 - Math.round(dz / 20) * 20;
+      if (p.zi !== zi) { p.zi = zi; p.el.style.zIndex = zi; }
+      if (p.kind === 'photo') {
+        const s3 = s.toFixed(3);
+        if (p.s !== s3) { p.s = s3; p.el.style.setProperty('--s', s3); } // serve ai cartellini su telefono
+      }
       p.el.style.opacity = o.toFixed(3);
       p.o = o;
       // le foto restano cliccabili (e mostrano il cartellino) finché sono nella vetrina davanti
@@ -131,7 +138,8 @@
       let u = (cam - (lastZ - 1100)) / 1100;
       u = Math.min(Math.max(u, 0), 1);
       const zoom = 1 + (1 - u) * (1 - u) * 3.2;
-      if (mappa._z !== zoom) { mappa._z = zoom; mappa.style.setProperty('--zoom', zoom.toFixed(3)); }
+      // la mappa è SVG (si ridisegna): la aggiorno solo per variazioni visibili
+      if (mappa._z === undefined || Math.abs(mappa._z - zoom) > 0.01 || (zoom === 1 && mappa._z !== 1)) { mappa._z = zoom; mappa.style.setProperty('--zoom', zoom.toFixed(3)); }
     }
 
     // Barra di avanzamento tra le vetrine
@@ -360,8 +368,9 @@
     my = e.clientY / innerHeight;
     if (!lightRaf) lightRaf = requestAnimationFrame(() => {
       lightRaf = 0;
-      root.style.setProperty('--mx', mx.toFixed(3));
-      root.style.setProperty('--my', my.toFixed(3));
+      // sulla scena, non su tutta la pagina: meno stili da ricalcolare
+      world.style.setProperty('--mx', mx.toFixed(3));
+      world.style.setProperty('--my', my.toFixed(3));
       tvx = (mx - 0.5) * 8;
       tvy = (my - 0.5) * 6;
       wake();
