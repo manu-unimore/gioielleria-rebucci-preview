@@ -160,11 +160,11 @@
     setClock(ch, animate);
   }
 
-  // Tabellone a palette: 4 caselle, codici corti allineati a destra ("925" -> " 925")
+  // Tabellone a palette: 5 caselle, codici più corti centrati ("925" -> " 925 ")
   function setClock(ch, animate) {
     clock.setAttribute('aria-label', `Vetrina: ${ch.label}`);
     const chars = [...ch.code];
-    const pad = 4 - chars.length;
+    const pad = flaps.length - chars.length;
     const digits = [...Array(Math.ceil(pad / 2)).fill('\u00A0'), ...chars, ...Array(Math.floor(pad / 2)).fill('\u00A0')];
     flaps.forEach((el, k) => {
       const nv = digits[k];
