@@ -96,8 +96,8 @@ main:focus { outline: none; box-shadow: none; }
 .flap .b, .flap .fb { background: #242A30; }
 .flap::after { content: ""; position: absolute; left: 0; right: 0; top: calc(50% - .5px); height: 1px; background: #05080B; }
 .flap .fb { transform: rotateX(90deg); }
-.flap.go .ft { animation: flap-top .22s ease-in var(--delay, 0s) forwards; }
-.flap.go .fb { animation: flap-bottom .22s ease-out calc(var(--delay, 0s) + .22s) forwards; }
+.flap.go .ft { animation: flap-top var(--dur, .22s) ease-in var(--delay, 0s) forwards; }
+.flap.go .fb { animation: flap-bottom var(--dur, .22s) ease-out calc(var(--delay, 0s) + var(--dur, .22s)) forwards; }
 @keyframes flap-top { to { transform: rotateX(-90deg); } }
 @keyframes flap-bottom { from { transform: rotateX(90deg); } to { transform: rotateX(0); } }
 
@@ -327,14 +327,14 @@ html:has(.luce[open]) { overflow: hidden; }
 }
 
 /* ---------- Riflesso nel passaggio tra vetrine ---------- */
-html:not(.is-3d) .sweep, html:not(.is-3d) .ingresso { display: none; }
-.is-3d .sweep {
-  position: fixed; top: 0; bottom: 0; left: -50%; right: -50%; z-index: 6; pointer-events: none; opacity: 0;
-  background: linear-gradient(105deg, transparent 36%, rgba(255, 246, 224, 0) 41%, rgba(255, 246, 224, .5) 50%, rgba(255, 246, 224, 0) 59%, transparent 64%);
-  mix-blend-mode: screen;
-  transform: translateX(calc((var(--s, 0) - .5) * 100%));
-  will-change: transform, opacity;
+html:not(.is-3d) .velo, html:not(.is-3d) .ingresso, html:not(.is-3d) .chiusura { display: none; }
+/* vetro appannato: compare solo a metà del passaggio tra due vetrine */
+.is-3d .velo {
+  position: fixed; inset: 0; z-index: 6; pointer-events: none; opacity: 0; visibility: hidden;
+  -webkit-backdrop-filter: blur(14px) saturate(.85); backdrop-filter: blur(14px) saturate(.85);
+  background: radial-gradient(120% 100% at 50% 50%, rgba(235, 240, 238, .08), rgba(235, 240, 238, .2));
 }
+@media (max-width: 760px) { .is-3d .velo { -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); } }
 
 /* ---------- Scritta dorata sul vetro d'ingresso ---------- */
 .is-3d .ingresso {
@@ -397,7 +397,7 @@ html:not(.is-3d) .sweep, html:not(.is-3d) .ingresso { display: none; }
 html:not(.is-3d) .semplice { display: none; }
 
 /* Riduci movimento: profondità sì, effetti di contorno no */
-.calmo .ingresso, .calmo .sweep { display: none; }
+.calmo .ingresso, .calmo .velo, .calmo .chiusura { display: none; }
 .calmo .hint-line { animation: none; }
 
 /* Fine corsa: nessun rimbalzo oltre l'ultima vetrina (iPhone), e se il browser
@@ -484,3 +484,34 @@ html.is-3d body { background: var(--sky-b); transition: background-color .6s eas
   letter-spacing: .01em; line-height: .95;
   font-size: clamp(4.4rem, 19vw, 17rem);
 }
+
+/* ---------- Brillio sulle pietre ---------- */
+.stella {
+  position: absolute; width: 52px; height: 52px; margin: -26px 0 0 -26px; z-index: 2; pointer-events: none;
+  background:
+    radial-gradient(circle, #FFF 0 7%, rgba(255, 250, 235, .55) 16%, transparent 34%),
+    linear-gradient(90deg, transparent 47%, rgba(255, 255, 255, .95) 50%, transparent 53%),
+    linear-gradient(0deg, transparent 47%, rgba(255, 255, 255, .95) 50%, transparent 53%);
+  -webkit-mask: radial-gradient(circle, #000 18%, transparent 68%); mask: radial-gradient(circle, #000 18%, transparent 68%);
+  filter: drop-shadow(0 0 5px rgba(255, 240, 200, 1));
+  mix-blend-mode: screen;
+  animation: stella 1.2s ease-in-out forwards;
+}
+@keyframes stella {
+  0% { transform: scale(0) rotate(0deg); opacity: 0; }
+  40% { transform: scale(1) rotate(40deg); opacity: 1; }
+  100% { transform: scale(0) rotate(90deg); opacity: 0; }
+}
+
+/* ---------- Chiusura: l'insegna torna per un attimo ---------- */
+.is-3d .chiusura {
+  position: fixed; inset: 0; z-index: 8; pointer-events: none;
+  display: grid; place-content: center; justify-items: center; gap: .5rem; text-align: center;
+  background: radial-gradient(90% 80% at 50% 50%, rgba(6, 16, 14, .95), rgba(6, 16, 14, .82));
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  opacity: 0; visibility: hidden;
+  transition: opacity .8s ease, visibility 0s linear .8s;
+}
+.is-3d .chiusura.on { opacity: 1; visibility: visible; transition: opacity .6s ease; }
+.is-3d .chiusura .insegna { font-size: clamp(3.4rem, 14vw, 10rem); transform: scale(1.06); transition: transform 2.6s cubic-bezier(.2, .8, .2, 1); }
+.is-3d .chiusura.on .insegna { transform: scale(1); }

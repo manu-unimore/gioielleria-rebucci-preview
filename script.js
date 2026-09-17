@@ -54,7 +54,8 @@
   const PERSP = 1000; // distanza dell'osservatore in px, come la vecchia perspective CSS
   const narrowMq = matchMedia('(max-width: 760px), (max-aspect-ratio: 4/5)');
   const stage = document.querySelector('.stage');
-  const sweep = document.querySelector('.sweep');
+  const velo = document.querySelector('.velo');
+  const chiusura = document.querySelector('.chiusura');
   const mappa = document.querySelector('.mappa');
   const barra = document.querySelector('.avanzamento i');
   const themeMeta = document.querySelector('meta[name="theme-color"]');
@@ -151,11 +152,25 @@
       if (s._o !== v) { s.style.opacity = v; s._o = v; }
     });
 
-    // Riflesso che attraversa lo schermo a metà del passaggio tra due vetrine
-    if (sweep && sweep._t !== t) {
-      sweep._t = t;
-      sweep.style.setProperty('--s', t.toFixed(3));
-      sweep.style.opacity = next ? Math.sin(Math.PI * t).toFixed(3) : 0;
+    // Vetro appannato che nasconde il cambio di colore a metà del passaggio
+    if (velo && velo._t !== t) {
+      velo._t = t;
+      const v = next ? Math.pow(Math.sin(Math.PI * t), 1.5) * 0.78 : 0;
+      velo.style.opacity = v.toFixed(3);
+      velo.style.visibility = v > 0.01 ? 'visible' : 'hidden';
+    }
+
+    // Chiusura: arrivati in fondo, l'insegna dorata compare per un attimo
+    if (chiusura) {
+      if (cam >= lastZ - 2 && !chiusura._fatto) {
+        chiusura._fatto = true;
+        chiusura.classList.add('on');
+        clearTimeout(chiusura._t);
+        chiusura._t = setTimeout(() => chiusura.classList.remove('on'), 1900);
+      } else if (cam < lastZ - 60) {
+        chiusura.classList.remove('on');
+        if (cam < lastZ - 400) chiusura._fatto = false;
+      }
     }
 
     // Scritta sul vetro d'ingresso: svanisce e si avvicina nei primi passi
@@ -189,6 +204,7 @@
   }
 
   // Tabellone a palette: 5 caselle, codici più corti centrati ("925" -> " 925 ")
+  const GIRO = '0123456789ABCDEFGHILMNORSTUV';
   function setClock(ch, animate) {
     clock.setAttribute('aria-label', `Vetrina: ${ch.label}`);
     const chars = [...ch.code].slice(0, flaps.length);
@@ -199,22 +215,42 @@
       const ov = el.dataset.v;
       if (nv === ov) return;
       el.dataset.v = nv;
-      const [top, bottom, flipTop, flipBottom] = el.children;
+      const nodes = [...el.children];
+      const [top, bottom, flipTop, flipBottom] = nodes;
       const put = (node, v) => { node.firstElementChild.textContent = v; };
+      const token = (el._token || 0) + 1;
+      el._token = token;
       if (!animate) {
-        [top, bottom, flipTop, flipBottom].forEach((n) => put(n, nv));
+        nodes.forEach((n) => put(n, nv));
+        el._shown = nv;
         return;
       }
-      put(top, nv); put(bottom, ov); put(flipTop, ov); put(flipBottom, nv);
-      el.style.setProperty('--delay', `${k * 0.07}s`);
-      el.classList.remove('go');
-      void el.offsetWidth;
-      el.classList.add('go');
-      flipBottom.addEventListener('animationend', () => {
-        const v = el.dataset.v;
-        [top, bottom, flipTop, flipBottom].forEach((n) => put(n, v));
+      // Come un tabellone vero: qualche carattere di passaggio prima di quello giusto
+      const seq = [];
+      const giri = 2 + ((k * 7 + nv.charCodeAt(0)) % 3);
+      for (let i = 0; i < giri; i++) seq.push(GIRO[(k * 5 + i * 11 + nv.charCodeAt(0)) % GIRO.length]);
+      seq.push(nv);
+      let shown = el._shown ?? ov;
+      const step = (i) => {
+        if (el._token !== token) return;
+        const v = seq[i];
+        const ultimo = i === seq.length - 1;
+        put(top, v); put(bottom, shown); put(flipTop, shown); put(flipBottom, v);
+        el.style.setProperty('--dur', ultimo ? '.2s' : '.07s');
+        el.style.setProperty('--delay', i === 0 ? `${k * 0.06}s` : '0s');
         el.classList.remove('go');
-      }, { once: true });
+        void el.offsetWidth;
+        el.classList.add('go');
+        flipBottom.addEventListener('animationend', () => {
+          if (el._token !== token) return;
+          shown = v;
+          el._shown = v;
+          nodes.forEach((n) => put(n, v));
+          el.classList.remove('go');
+          if (!ultimo) step(i + 1);
+        }, { once: true });
+      };
+      step(0);
     });
   }
 
@@ -261,6 +297,60 @@
     }
     return true;
   };
+
+  // Brillio: piccole stelle di luce sui punti più luminosi delle foto di gioielli
+  const conBrillio = [...document.querySelectorAll('#soglia .zoom, #oro .zoom, #argento .zoom, #vetro .zoom')];
+  const puntiLuce = new Map();
+  function trovaLuci(img) {
+    try {
+      const N = 40;
+      const c = document.createElement('canvas');
+      c.width = c.height = N;
+      const g = c.getContext('2d', { willReadFrequently: true });
+      g.drawImage(img, 0, 0, N, N);
+      const d = g.getImageData(0, 0, N, N).data;
+      const L = (x, y) => { const i = (y * N + x) * 4; return d[i] * 0.3 + d[i + 1] * 0.59 + d[i + 2] * 0.11; };
+      const pts = [];
+      for (let y = 1; y < N - 1; y++) for (let x = 1; x < N - 1; x++) {
+        const l = L(x, y);
+        const intorno = (L(x - 1, y) + L(x + 1, y) + L(x, y - 1) + L(x, y + 1)) / 4;
+        // luce puntiforme: chiara e più chiara di ciò che ha intorno (non un fondo bianco uniforme)
+        if (l > 190 && l - intorno > 18) pts.push([(x + 0.5) / N, (y + 0.5) / N, l - intorno]);
+      }
+      pts.sort((a, b) => b[2] - a[2]);
+      const scelti = [];
+      for (const p of pts) {
+        if (scelti.every((q) => Math.hypot(q[0] - p[0], q[1] - p[1]) > 0.1)) scelti.push(p);
+        if (scelti.length === 6) break;
+      }
+      return scelti;
+    } catch { return []; }
+  }
+  function brilla() {
+    if (document.hidden) return;
+    const vivi = conBrillio.filter((b) => b.closest('.plane').classList.contains('is-live'));
+    if (!vivi.length) return;
+    const b = vivi[Math.floor(Math.random() * vivi.length)];
+    const img = b.querySelector('img');
+    if (!img.complete || !img.naturalWidth) return;
+    if (!puntiLuce.has(img)) puntiLuce.set(img, trovaLuci(img));
+    const pts = puntiLuce.get(img);
+    if (!pts.length) return;
+    const [px, py] = pts[Math.floor(Math.random() * pts.length)];
+    // la foto è ritagliata con object-fit: cover, quindi si ricalcola la posizione visibile
+    const W = img.offsetWidth, H = img.offsetHeight, w = img.naturalWidth, h = img.naturalHeight;
+    const k = Math.max(W / w, H / h);
+    const x = (W - w * k) / 2 + px * w * k;
+    const y = (H - h * k) / 2 + py * h * k;
+    if (x < 6 || y < 6 || x > W - 6 || y > H - 6) return;
+    const stella = document.createElement('span');
+    stella.className = 'stella';
+    stella.style.left = `${x}px`;
+    stella.style.top = `${y}px`;
+    stella.addEventListener('animationend', () => stella.remove(), { once: true });
+    b.append(stella);
+  }
+  if (!root.classList.contains('calmo')) setInterval(brilla, 850);
 
   // Luce del cursore sui gioielli e vetrina che si inclina appena
   let mx = 0.5, my = 0.5, lightRaf = 0;
@@ -311,6 +401,8 @@
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
   layout();
   const start = byId(decodeURIComponent(location.hash.slice(1)));
+  // chi apre direttamente "Dove siamo" non deve vedere la chiusura
+  if (chiusura && start && start.z === lastZ) chiusura._fatto = true;
   if (start) goTo(start.id, { instant: true });
   else { window.scrollTo(0, 0); render(); }
 
