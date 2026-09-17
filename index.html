@@ -17,15 +17,17 @@
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <script>
-  // Attiva la versione in profondità prima del primo paint (niente flash).
-  if (!/[?&]piatto(=|&|$)/.test(location.search) && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  // Versione in profondità sempre attiva (anche su telefono), tranne con ?piatto.
+  // Con "Riduci movimento" restano la profondità ma non gli effetti più mossi (classe .calmo).
+  if (!/[?&]piatto(=|&|$)/.test(location.search)) {
     document.documentElement.classList.add('is-3d');
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('calmo');
   }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Figtree:wght@400;600&family=Oswald:wght@600&display=swap">
-<link rel="stylesheet" href="styles.css?v=4">
+<link rel="stylesheet" href="styles.css?v=5">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -49,7 +51,7 @@
   ]
 }
 </script>
-<script src="script.js?v=4" defer></script>
+<script src="script.js?v=5" defer></script>
 </head>
 <body>
 <!--
@@ -105,6 +107,7 @@
         <p class="motto">Nel cuore del centro storico.</p>
         <p class="lead">Una tradizione di gioielleria e oggettistica riconoscibile per un gusto raffinato e originale e per un costante spirito di innovazione.</p>
         <p class="hint" aria-hidden="true"><span class="hint-line"></span><span class="hint-wheel">Scorri con la rotella: si entra in vetrina</span><span class="hint-touch">Scorri col dito: si entra in vetrina</span></p>
+        <p class="semplice"><a href="?piatto">Versione semplice, senza animazioni</a></p>
       </div>
       <figure class="plane photo square" data-dz="520" data-x="24" data-y="-3" data-xm="0" data-ym="-30">
         <button class="zoom" type="button" aria-label="Ingrandisci: Anello con una fila di brillanti su fondo blu scuro">

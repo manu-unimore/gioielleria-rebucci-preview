@@ -378,3 +378,12 @@ html:not(.is-3d) .sweep, html:not(.is-3d) .ingresso { display: none; }
     linear-gradient(115deg, transparent 18%, rgba(255, 255, 255, .07) 24%, transparent 31%),
     radial-gradient(120% 90% at 50% 42%, rgba(10, 24, 20, .92), rgba(4, 10, 9, .98)); }
 }
+
+/* Link alla versione semplice: solo nella versione in profondità */
+.semplice { margin: .8rem 0 0; font-size: .85rem; }
+.semplice a { color: var(--soft); }
+html:not(.is-3d) .semplice { display: none; }
+
+/* Riduci movimento: profondità sì, effetti di contorno no */
+.calmo .ingresso, .calmo .sweep { display: none; }
+.calmo .hint-line { animation: none; }
