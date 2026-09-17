@@ -51,6 +51,7 @@
   const skies = [...document.querySelectorAll('.sky')];
   const clock = document.querySelector('.clock');
   const flaps = [...clock.querySelectorAll('.flap')];
+  const PERSP = 1000; // distanza dell'osservatore in px, come la vecchia perspective CSS
   const narrowMq = matchMedia('(max-width: 760px), (max-aspect-ratio: 4/5)');
   const stage = document.querySelector('.stage');
   const sweep = document.querySelector('.sweep');
@@ -67,7 +68,7 @@
         z: ch.z + Number(d.dz || 0),
         x: Number(d.x || 0), y: Number(d.y || 0),
         xm: Number(d.xm ?? d.x ?? 0), ym: Number(d.ym ?? d.y ?? 0),
-        rot: d.ry ? ` rotateY(${d.ry}deg)` : '',
+        rot: d.ry ? ` perspective(${PERSP}px) rotateY(${d.ry}deg)` : '',
         far: kind === 'copy' ? 1000 : kind === 'deco' ? 900 : 1500,
         back: kind === 'deco' ? 700 : 320,
         o: -1, live: false,
@@ -77,6 +78,7 @@
 
   let narrow = narrowMq.matches;
   let cam = 0;
+  let vx = 0, vy = 0, tvx = 0, tvy = 0; // punto di fuga (vw, vh) e suo obiettivo
   let target = 0;
   let current = -1;
   let raf = 0;
@@ -101,7 +103,13 @@
       const dz = Math.min(Math.max(d, -p.back - 80), 4200);
       const x = narrow ? p.xm : p.x;
       const y = narrow ? p.ym : p.y;
-      p.el.style.transform = `translate(-50%,-50%) translate3d(${x}vw,${y}vh,${-dz}px)${p.rot}`;
+      // Prospettiva calcolata a mano (scala + posizione verso il punto di fuga):
+      // stesso risultato del 3D CSS, ma funziona uguale su Safari iPhone.
+      const s = PERSP / (PERSP + dz);
+      const tx = x * s + vx * (1 - s);
+      const ty = y * s + vy * (1 - s);
+      p.el.style.transform = `translate(-50%,-50%) translate(${tx.toFixed(3)}vw,${ty.toFixed(3)}vh) scale(${s.toFixed(4)})${p.rot}`;
+      p.el.style.zIndex = String(5000 - Math.round(dz));
       p.el.style.opacity = o.toFixed(3);
       p.o = o;
       // le foto restano cliccabili (e mostrano il cartellino) finché sono nella vetrina davanti
@@ -196,8 +204,13 @@
     // Decadimento esponenziale: stesso movimento a 30, 60 o 120 fps
     cam += (target - cam) * (1 - Math.exp(-dt * 5.5));
     if (Math.abs(target - cam) < 0.4) cam = target;
+    // punto di fuga che segue il cursore, più lento della camera
+    const k = 1 - Math.exp(-dt * 3);
+    vx += (tvx - vx) * k;
+    vy += (tvy - vy) * k;
+    if (Math.abs(tvx - vx) < 0.01 && Math.abs(tvy - vy) < 0.01) { vx = tvx; vy = tvy; }
     render();
-    if (cam !== target) {
+    if (cam !== target || vx !== tvx || vy !== tvy) {
       raf = requestAnimationFrame(tick);
     } else {
       raf = 0;
@@ -239,7 +252,9 @@
       lightRaf = 0;
       root.style.setProperty('--mx', mx.toFixed(3));
       root.style.setProperty('--my', my.toFixed(3));
-      stage.style.perspectiveOrigin = `${(50 + (mx - 0.5) * 8).toFixed(2)}% ${(50 + (my - 0.5) * 6).toFixed(2)}%`;
+      tvx = (mx - 0.5) * 8;
+      tvy = (my - 0.5) * 6;
+      wake();
     });
   }, { passive: true });
 
