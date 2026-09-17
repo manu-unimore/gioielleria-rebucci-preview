@@ -387,3 +387,8 @@ html:not(.is-3d) .semplice { display: none; }
 /* Riduci movimento: profondità sì, effetti di contorno no */
 .calmo .ingresso, .calmo .sweep { display: none; }
 .calmo .hint-line { animation: none; }
+
+/* Fine corsa: nessun rimbalzo oltre l'ultima vetrina (iPhone), e se il browser
+   scopre comunque un bordo si vede il colore della vetrina, non il nero */
+html.is-3d, html.is-3d body { overscroll-behavior: none; }
+html.is-3d body { background: var(--sky-b); transition: background-color .6s ease; }
