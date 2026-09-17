@@ -444,3 +444,43 @@ html.is-3d body { background: var(--sky-b); transition: background-color .6s eas
   /* sulla mappa l'indirizzo è già nel testo accanto */
   .is-3d .mappa .cartellino { display: none; }
 }
+
+/* ---------- Barra di avanzamento in ottone ---------- */
+.avanzamento { display: none; }
+.is-3d .hud > .avanzamento {
+  display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: color-mix(in srgb, var(--ink) 14%, transparent); pointer-events: none;
+}
+.avanzamento i { display: block; height: 100%; background: var(--accent); transform: scaleX(0); transform-origin: 0 50%; }
+
+/* ---------- Cartellini che dondolano quando compaiono ---------- */
+@keyframes dondola { 0% { rotate: 9deg; } 30% { rotate: -5deg; } 55% { rotate: 3deg; } 78% { rotate: -1deg; } 100% { rotate: 0deg; } }
+@media (min-width: 761px) and (min-aspect-ratio: 4/5) {
+  .is-3d .plane.is-live .cartellino { animation: dondola 1.8s cubic-bezier(.3, .7, .4, 1) both; }
+}
+.calmo .cartellino { animation: none !important; }
+
+/* ---------- Gemme che ruotano e catturano la luce ---------- */
+@keyframes gira { from { transform: perspective(700px) rotateY(0deg); } to { transform: perspective(700px) rotateY(360deg); } }
+@keyframes brilla { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
+.is-3d .gem svg { animation: gira 16s linear infinite, brilla 5s ease-in-out infinite; }
+.is-3d .gem.small-gem svg { animation-duration: 11s, 3.6s; animation-direction: reverse, normal; }
+.calmo .gem svg { animation: none; }
+
+/* ---------- Velluto sulle vetrine scure ---------- */
+.is-3d .sky:is([data-tone="soglia"], [data-tone="oro"], [data-tone="vetro"], [data-tone="visita"])::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background:
+    linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .035) 48%, transparent 66%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: auto, 220px 220px;
+  opacity: .09; mix-blend-mode: soft-light;
+}
+
+/* ---------- Insegna d'ingresso in serif da negozio storico ---------- */
+.insegna {
+  font-family: "Cormorant Garamond", "Didot", "Bodoni 72", Georgia, serif;
+  font-variation-settings: normal; font-weight: 600;
+  letter-spacing: .01em; line-height: .95;
+  font-size: clamp(4.4rem, 19vw, 17rem);
+}

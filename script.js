@@ -56,6 +56,8 @@
   const stage = document.querySelector('.stage');
   const sweep = document.querySelector('.sweep');
   const mappa = document.querySelector('.mappa');
+  const barra = document.querySelector('.avanzamento i');
+  const themeMeta = document.querySelector('meta[name="theme-color"]');
   const ingresso = document.querySelector('.ingresso');
   const lastZ = chapters[chapters.length - 1].z;
 
@@ -131,6 +133,12 @@
       if (mappa._z !== zoom) { mappa._z = zoom; mappa.style.setProperty('--zoom', zoom.toFixed(3)); }
     }
 
+    // Barra di avanzamento tra le vetrine
+    if (barra) {
+      const v = Math.min(Math.max(cam / lastZ, 0), 1);
+      if (barra._v !== v) { barra._v = v; barra.style.transform = `scaleX(${v.toFixed(4)})`; }
+    }
+
     // Cielo: dissolvenza tra l'ora corrente e la successiva a metà tragitto
     let i = 0;
     while (i < chapters.length - 1 && cam >= chapters[i + 1].z) i++;
@@ -170,6 +178,8 @@
     current = i;
     const ch = chapters[i];
     root.dataset.tone = ch.id;
+    // barra del browser su telefono dello stesso colore della vetrina
+    if (themeMeta) themeMeta.setAttribute('content', getComputedStyle(root).getPropertyValue('--sky-a').trim());
     navLinks.forEach((a) => {
       if (a.classList.contains('brand')) return;
       if (a.getAttribute('href') === `#${ch.id}`) a.setAttribute('aria-current', 'step');
