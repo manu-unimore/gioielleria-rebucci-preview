@@ -55,6 +55,7 @@
   const narrowMq = matchMedia('(max-width: 760px), (max-aspect-ratio: 4/5)');
   const stage = document.querySelector('.stage');
   const sweep = document.querySelector('.sweep');
+  const mappa = document.querySelector('.mappa');
   const ingresso = document.querySelector('.ingresso');
   const lastZ = chapters[chapters.length - 1].z;
 
@@ -110,6 +111,7 @@
       const ty = y * s + vy * (1 - s);
       p.el.style.transform = `translate(-50%,-50%) translate(${tx.toFixed(3)}vw,${ty.toFixed(3)}vh) scale(${s.toFixed(4)})${p.rot}`;
       p.el.style.zIndex = String(5000 - Math.round(dz));
+      p.el.style.setProperty('--s', s.toFixed(4)); // serve ai cartellini su telefono
       p.el.style.opacity = o.toFixed(3);
       p.o = o;
       // le foto restano cliccabili (e mostrano il cartellino) finché sono nella vetrina davanti
@@ -119,6 +121,14 @@
         p.live = live;
         p.el.classList.toggle('is-live', live);
       }
+    }
+
+    // Mappa finale: arrivando a "Dove siamo" la vista si allontana dal negozio al centro storico
+    if (mappa) {
+      let u = (cam - (lastZ - 1100)) / 1100;
+      u = Math.min(Math.max(u, 0), 1);
+      const zoom = 1 + (1 - u) * (1 - u) * 3.2;
+      if (mappa._z !== zoom) { mappa._z = zoom; mappa.style.setProperty('--zoom', zoom.toFixed(3)); }
     }
 
     // Cielo: dissolvenza tra l'ora corrente e la successiva a metà tragitto
