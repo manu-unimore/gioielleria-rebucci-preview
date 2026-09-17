@@ -1,29 +1,37 @@
 <!doctype html>
-<html lang="it">
+<html lang="it" data-tone="soglia">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gioielleria Rebucci &middot; Mirandola</title>
-<meta name="description" content="Gioielleria e oggettistica a Mirandola dal 1963: oro, argento, diamanti, vetri di Murano e complementi d'arredo.">
+<!-- Bozza da mostrare alla cliente: togliere noindex quando il sito va online davvero -->
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#132622">
-<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="assets/favicon.svg">
+<title>Gioielleria Rebucci, Mirandola: gioielli, argento, vetro e oggetti per la casa</title>
+<meta name="description" content="Gioielleria Rebucci, in via Cesare Battisti 15 a Mirandola. Dal 1964 gioielli in oro e argento, vetro di Murano, porcellane e oggetti per la casa.">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Gioielleria Rebucci">
 <meta property="og:locale" content="it_IT">
-<meta property="og:title" content="Gioielleria Rebucci &middot; Mirandola">
-<meta property="og:description" content="Gioielleria e oggettistica a Mirandola dal 1963: oro, argento, diamanti, vetri di Murano e complementi d'arredo.">
-<meta property="og:url" content="https://www.gioielleriarebucci.it/">
-<meta property="og:image" content="https://www.gioielleriarebucci.it/assets/foto/r05.jpg">
-<meta property="og:image:alt" content="Gioielleria Rebucci, Mirandola">
-<meta name="twitter:card" content="summary_large_image">
+<meta property="og:title" content="Gioielleria Rebucci, Mirandola">
+<meta property="og:description" content="Dal 1964 nel centro storico di Mirandola: oro, argento, vetro di Murano e la tavola.">
+<meta property="og:url" content="https://manu-unimore.github.io/gioielleria-rebucci-preview/">
+<meta property="og:image" content="https://manu-unimore.github.io/gioielleria-rebucci-preview/assets/foto/r05.jpg">
+<meta name="theme-color" content="#0A1613">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<script>
+  // Attiva la versione in profondità prima del primo paint (niente flash).
+  if (!/[?&]piatto(=|&|$)/.test(location.search) && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.documentElement.classList.add('is-3d');
+  }
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Figtree:wght@400;600&family=Oswald:wght@600&display=swap">
+<link rel="stylesheet" href="styles.css">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "JewelryStore",
   "name": "Gioielleria Rebucci",
-  "url": "https://www.gioielleriarebucci.it/",
+  "foundingDate": "1964",
   "telephone": "+39 347 749 6401",
   "email": "r_alessandra@me.com",
   "address": {
@@ -34,409 +42,240 @@
     "addressRegion": "MO",
     "addressCountry": "IT"
   },
+  "hasMap": "https://www.google.com/maps/search/?api=1&query=Gioielleria+Rebucci+Via+Cesare+Battisti+Mirandola",
   "sameAs": [
     "https://www.instagram.com/rebucci_gioielleria_mirandola/",
     "https://www.facebook.com/rebuccigioielleria/"
   ]
 }
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500&family=Fraunces:opsz,wght@9..144,300..500&display=swap">
-<link rel="stylesheet" href="assets/css/style.css">
+<script src="script.js" defer></script>
 </head>
 <body>
-  <div id="sentinella" class="sentinella" aria-hidden="true"></div>
-  <a class="nascosto-visivo" href="#principale">Vai al contenuto</a>
+<!--
+  PROPOSTA COMMERCIALE. Foto dall'archivio della gioielleria (portfolio 46vie).
+  Da confermare con la titolare:
+  - anno di apertura: 1964 nel testo ufficiale 46vie, 1963 sulla pagina Facebook;
+  - numero civico: 15 (46vie) oppure 17 (Facebook);
+  - orari di apertura: non pubblicati da nessuna parte, per ora il sito rimanda al telefono.
+  Marchi e descrizioni verificati sui siti dei produttori il 17/09/2026 (vedi DESIGN.md).
+-->
+<a class="skip" href="#contenuto">Salta al contenuto</a>
 
-  <header class="testata bordo">
-    <div class="testata-interno">
-      <a class="marchio" href="index.html">Rebucci<small>Mirandola</small></a>
-      <nav class="nav" aria-label="Principale">
-        <ul class="nav-lista">
-        <li class="voce">
-          <button type="button" aria-expanded="false">La Gioielleria</button>
-          <ul class="sotto">
-            <li><a href="gioielleria.html">Tutto: la gioielleria</a></li>
-            <li><a href="gioielleria.html#storia">Dal 1963</a></li>
-            <li><a href="gioielleria.html#alessandra">Alessandra Rebucci</a></li>
-            <li><a href="gioielleria.html#negozio">Il negozio in centro</a></li>
-          </ul>
-        </li>
-        <li class="voce">
-          <button type="button" aria-expanded="false">Gioielli</button>
-          <ul class="sotto">
-            <li><a href="gioielli.html">Tutto: gioielli</a></li>
-            <li><a href="gioielli.html#oro">Oro</a></li>
-            <li><a href="gioielli.html#argento">Argento</a></li>
-            <li><a href="gioielli.html#pietre">Diamanti e pietre di colore</a></li>
-            <li><a href="gioielli.html#fedi">Fedi e anniversari</a></li>
-            <li><a href="gioielli.html#sumisura">Creazioni su misura</a></li>
-          </ul>
-        </li>
-        <li class="voce">
-          <button type="button" aria-expanded="false">Marchi</button>
-          <ul class="sotto">
-            <li><a href="marchi.html">Tutto: marchi</a></li>
-            <li><a href="marchi.html#visconti">Mirco Visconti</a></li>
-            <li><a href="marchi.html#raspini">Giovanni Raspini</a></li>
-            <li><a href="marchi.html#luiber">Luiber</a></li>
-            <li><a href="marchi.html#lemonde">Le Monde de Bijoux</a></li>
-          </ul>
-        </li>
-        <li class="voce">
-          <button type="button" aria-expanded="false">Arte e Design</button>
-          <ul class="sotto">
-            <li><a href="arte-design.html">Tutto: arte e design</a></li>
-            <li><a href="arte-design.html#murano">Vetri di Murano</a></li>
-            <li><a href="arte-design.html#ceramiche">Ceramiche d'autore</a></li>
-            <li><a href="arte-design.html#sculture">Sculture e complementi</a></li>
-            <li><a href="arte-design.html#home">Home fashion</a></li>
-          </ul>
-        </li>
-        <li class="voce">
-          <button type="button" aria-expanded="false">Regali</button>
-          <ul class="sotto">
-            <li><a href="regali.html">Tutto: regali</a></li>
-            <li><a href="regali.html#nascita">Nascita e battesimo</a></li>
-            <li><a href="regali.html#laurea">Laurea</a></li>
-            <li><a href="regali.html#matrimonio">Matrimonio e liste</a></li>
-            <li><a href="regali.html#ricorrenze">Ricorrenze</a></li>
-          </ul>
-        </li>
-        <li class="voce">
-          <button type="button" aria-expanded="false">Servizi</button>
-          <ul class="sotto">
-            <li><a href="servizi.html">Tutto: servizi</a></li>
-            <li><a href="servizi.html#riparazioni">Riparazioni e restauro</a></li>
-            <li><a href="servizi.html#incisioni">Incisioni</a></li>
-            <li><a href="servizi.html#orologi">Cambio pile e cinturini</a></li>
-            <li><a href="servizi.html#valutazioni">Valutazioni e permute</a></li>
-          </ul>
-        </li>
-        <li class="voce"><a href="contatti.html">Contatti</a></li>
-        </ul>
-      </nav>
-      <button class="apri-menu" type="button" aria-haspopup="dialog"
-              aria-controls="cassetto" aria-expanded="false">Menu
-        <span class="icona" aria-hidden="true"><i></i><i></i></span>
-      </button>
-    </div>
-  </header>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="gemma" viewBox="0 0 240 200">
+    <path d="M70 20 H170 L230 76 L120 190 L10 76 Z M10 76 H230 M70 20 L96 76 L120 20 L144 76 L170 20 M96 76 L120 190 L144 76"
+          fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round" />
+  </symbol>
+</svg>
 
-  <dialog id="cassetto" class="cassetto" closedby="any" aria-label="Menu di navigazione">
-    <div class="cassetto-testa"><button class="chiudi" type="button">Chiudi</button></div>
-    <nav aria-label="Menu completo">
-      <details>
-        <summary>La Gioielleria</summary>
-        <ul>
-          <li><a href="gioielleria.html">Tutto: la gioielleria</a></li>
-          <li><a href="gioielleria.html#storia">Dal 1963</a></li>
-          <li><a href="gioielleria.html#alessandra">Alessandra Rebucci</a></li>
-          <li><a href="gioielleria.html#negozio">Il negozio in centro</a></li>
-        </ul>
-      </details>
-      <details>
-        <summary>Gioielli</summary>
-        <ul>
-          <li><a href="gioielli.html">Tutto: gioielli</a></li>
-          <li><a href="gioielli.html#oro">Oro</a></li>
-          <li><a href="gioielli.html#argento">Argento</a></li>
-          <li><a href="gioielli.html#pietre">Diamanti e pietre di colore</a></li>
-          <li><a href="gioielli.html#fedi">Fedi e anniversari</a></li>
-          <li><a href="gioielli.html#sumisura">Creazioni su misura</a></li>
-        </ul>
-      </details>
-      <details>
-        <summary>Marchi</summary>
-        <ul>
-          <li><a href="marchi.html">Tutto: marchi</a></li>
-          <li><a href="marchi.html#visconti">Mirco Visconti</a></li>
-          <li><a href="marchi.html#raspini">Giovanni Raspini</a></li>
-          <li><a href="marchi.html#luiber">Luiber</a></li>
-          <li><a href="marchi.html#lemonde">Le Monde de Bijoux</a></li>
-        </ul>
-      </details>
-      <details>
-        <summary>Arte e Design</summary>
-        <ul>
-          <li><a href="arte-design.html">Tutto: arte e design</a></li>
-          <li><a href="arte-design.html#murano">Vetri di Murano</a></li>
-          <li><a href="arte-design.html#ceramiche">Ceramiche d'autore</a></li>
-          <li><a href="arte-design.html#sculture">Sculture e complementi</a></li>
-          <li><a href="arte-design.html#home">Home fashion</a></li>
-        </ul>
-      </details>
-      <details>
-        <summary>Regali</summary>
-        <ul>
-          <li><a href="regali.html">Tutto: regali</a></li>
-          <li><a href="regali.html#nascita">Nascita e battesimo</a></li>
-          <li><a href="regali.html#laurea">Laurea</a></li>
-          <li><a href="regali.html#matrimonio">Matrimonio e liste</a></li>
-          <li><a href="regali.html#ricorrenze">Ricorrenze</a></li>
-        </ul>
-      </details>
-      <details>
-        <summary>Servizi</summary>
-        <ul>
-          <li><a href="servizi.html">Tutto: servizi</a></li>
-          <li><a href="servizi.html#riparazioni">Riparazioni e restauro</a></li>
-          <li><a href="servizi.html#incisioni">Incisioni</a></li>
-          <li><a href="servizi.html#orologi">Cambio pile e cinturini</a></li>
-          <li><a href="servizi.html#valutazioni">Valutazioni e permute</a></li>
-        </ul>
-      </details>
-      <a class="semplice" href="contatti.html">Contatti</a>
-    </nav>
-  </dialog>
+<header class="hud" role="banner">
+  <a class="brand" href="#soglia"><span class="brand-name">Rebucci</span> <span class="brand-sub">Gioielleria, Mirandola</span></a>
+  <p class="clock" role="img" aria-label="Vetrina: dal 1964">
+    <span class="flap" data-v="1" aria-hidden="true"><span class="h t"><i>1</i></span><span class="h b"><i>1</i></span><span class="f ft"><i>1</i></span><span class="f fb"><i>1</i></span></span><span class="flap" data-v="9" aria-hidden="true"><span class="h t"><i>9</i></span><span class="h b"><i>9</i></span><span class="f ft"><i>9</i></span><span class="f fb"><i>9</i></span></span><span class="flap" data-v="6" aria-hidden="true"><span class="h t"><i>6</i></span><span class="h b"><i>6</i></span><span class="f ft"><i>6</i></span><span class="f fb"><i>6</i></span></span><span class="flap" data-v="4" aria-hidden="true"><span class="h t"><i>4</i></span><span class="h b"><i>4</i></span><span class="f ft"><i>4</i></span><span class="f fb"><i>4</i></span></span>
+  </p>
+  <a class="btn btn-call" href="tel:+393477496401">Chiama</a>
+  <nav class="index" aria-label="Vetrine">
+    <ol>
+      <li><a href="#soglia"><span class="n">1964</span> Il negozio</a></li>
+      <li><a href="#oro"><span class="n">750</span> Oro</a></li>
+      <li><a href="#argento"><span class="n">925</span> Argento</a></li>
+      <li><a href="#vetro"><span class="n">1291</span> Vetro</a></li>
+      <li><a href="#tavola"><span class="n">1300</span> Tavola e casa</a></li>
+      <li><a href="#visita"><span class="n">Nº15</span> Dove siamo</a></li>
+    </ol>
+  </nav>
+</header>
 
-  <main id="principale">
-    <section class="apertura">
-      <div class="apertura-testo">
-        <h1>Gioielleria<br>Rebucci<em>Mirandola, dal 1963</em></h1>
-        <p class="claim">Una tradizione di gioielleria e oggettistica riconoscibile
-        per un gusto raffinato e originale, e per lo spirito di innovazione con cui
-        Alessandra sceglie ogni pezzo.</p>
-        <div class="hero-azioni">
-          <a class="bottone bottone-chiaro" href="gioielli.html">Scopri i gioielli</a>
-          <a class="oltre" href="contatti.html">Orari e contatti</a>
-        </div>
+<div class="stage">
+  <div class="skies" aria-hidden="true">
+    <div class="sky" data-tone="soglia"></div>
+    <div class="sky" data-tone="oro"></div>
+    <div class="sky" data-tone="argento"></div>
+    <div class="sky" data-tone="vetro"></div>
+    <div class="sky" data-tone="tavola"></div>
+    <div class="sky" data-tone="visita"></div>
+  </div>
+  <main class="world" id="contenuto" tabindex="-1">
+
+    <section class="ch" id="soglia" data-tone="soglia" data-z="0" data-code="1964" data-label="dal 1964" aria-labelledby="t-soglia">
+      <div class="plane copy" data-x="-17" data-y="2" data-xm="0" data-ym="12">
+        <p class="ora">Dal 1964</p>
+        <h1 id="t-soglia">Gioielleria Rebucci <span class="sub">Mirandola</span></h1>
+        <p class="motto">Nel cuore del centro storico.</p>
+        <p class="lead">Una tradizione di gioielleria e oggettistica riconoscibile per un gusto raffinato e originale e per un costante spirito di innovazione.</p>
+        <p class="hint" aria-hidden="true"><span class="hint-line"></span><span class="hint-wheel">Scorri con la rotella: si entra in vetrina</span><span class="hint-touch">Scorri col dito: si entra in vetrina</span></p>
       </div>
-      <figure class="apertura-foto">
-        <img src="assets/foto/r05.jpg" alt="Anello solitario con diamanti su fondo blu"
-             fetchpriority="high" decoding="async">
-        <figcaption>Anello con diamante, montatura in oro bianco</figcaption>
+      <figure class="plane photo square" data-dz="520" data-x="24" data-y="-3" data-xm="0" data-ym="-30">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Anello con una fila di brillanti su fondo blu scuro">
+        <img src="assets/foto/r05.jpg" width="1136" height="1079" fetchpriority="high"
+             alt="Anello con una fila di brillanti su fondo blu scuro">
+        </button>
+        <figcaption class="cartellino"><b>Anello con brillanti</b></figcaption>
+      </figure>
+      <div class="plane deco gem" data-dz="780" data-x="60" data-y="36" data-xm="40" data-ym="-44" aria-hidden="true"><svg><use href="#gemma"/></svg></div>
+      <div class="plane deco gem small-gem" data-dz="1040" data-x="20" data-y="-52" data-xm="-40" data-ym="-46" aria-hidden="true"><svg><use href="#gemma"/></svg></div>
+    </section>
+
+    <section class="ch" id="oro" data-tone="oro" data-z="1600" data-code="750" data-label="oro, 750 millesimi" aria-labelledby="t-oro">
+      <div class="plane copy" data-x="18" data-y="0" data-xm="0" data-ym="12">
+        <p class="ora">750 millesimi</p>
+        <h2 id="t-oro">Oro, e la luce dei diamanti</h2>
+        <p class="lead">Anelli, collane e bracciali in oro, con diamanti e pietre di colore. Da Valenza i gioielli di Mirco Visconti, da Arezzo quelli di Luiber.</p>
+        <ul class="items">
+          <li>Mirco Visconti</li>
+          <li>Luiber</li>
+          <li>Diamanti e pietre di colore</li>
+        </ul>
+      </div>
+      <figure class="plane photo tall" data-dz="500" data-x="-21" data-y="-3" data-xm="-8" data-ym="-24">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Collana a maglie ovali dorate appesa a una mano di legno">
+        <img src="assets/foto/r26.jpg" width="593" height="721" loading="lazy" decoding="async"
+             alt="Collana a maglie ovali dorate appesa a una mano di legno">
+        </button>
+        <figcaption class="cartellino destra"><b>Collana a maglie ovali</b></figcaption>
+      </figure>
+      <figure class="plane photo small" data-dz="300" data-x="-33" data-y="22" data-xm="24" data-ym="-16">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Bracciali tennis con diamanti su un piano nero lucido">
+        <img src="assets/foto/r11.jpg" width="552" height="577" loading="lazy" decoding="async"
+             alt="Bracciali tennis con diamanti su un piano nero lucido">
+        </button>
+        <figcaption class="cartellino"><b>Bracciali tennis con diamanti</b></figcaption>
+      </figure>
+      <div class="plane deco glints" data-dz="700" data-x="0" data-y="-8" data-xm="0" data-ym="-8" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+
+    <section class="ch" id="argento" data-tone="argento" data-z="3200" data-code="925" data-label="argento, 925 millesimi" aria-labelledby="t-argento">
+      <div class="plane copy" data-x="-17" data-y="1" data-xm="0" data-ym="12">
+        <p class="ora">925 millesimi</p>
+        <h2 id="t-argento">Argento da portare e da tenere in casa</h2>
+        <p class="lead">Le fusioni di Giovanni Raspini, l&rsquo;argenteria decorativa di Argenesi e i gioielli in argento di Le Monde des Bijoux: da indossare, da regalare, da mettere in casa.</p>
+        <ul class="items">
+          <li>Giovanni Raspini</li>
+          <li>Argenesi</li>
+          <li>Le Monde des Bijoux</li>
+        </ul>
+      </div>
+      <figure class="plane photo tall" data-dz="540" data-x="22" data-y="-3" data-xm="8" data-ym="-28">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Barattolo in vetro con coperchio a coccodrillo, cornice, anello e bracciali di Giovanni Raspini">
+        <img src="assets/foto/r13.jpg" width="801" height="962" loading="lazy" decoding="async"
+             alt="Barattolo in vetro con coperchio a coccodrillo, cornice, anello e bracciali di Giovanni Raspini">
+        </button>
+        <figcaption class="cartellino"><b>Barattolo e bracciali</b><span>Giovanni Raspini</span></figcaption>
+      </figure>
+      <figure class="plane photo small" data-dz="320" data-x="34" data-y="23" data-xm="-26" data-ym="-30">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Pendente in argento a forma di corona, tra foglie e bacche">
+        <img src="assets/foto/r25.jpg" width="561" height="532" loading="lazy" decoding="async"
+             alt="Pendente in argento a forma di corona, tra foglie e bacche">
+        </button>
+        <figcaption class="cartellino"><b>Pendente a corona</b><span>Argento</span></figcaption>
+      </figure>
+      <div class="plane deco gem" data-dz="860" data-x="62" data-y="-40" data-xm="40" data-ym="-44" aria-hidden="true"><svg><use href="#gemma"/></svg></div>
+    </section>
+
+    <section class="ch" id="vetro" data-tone="vetro" data-z="4800" data-code="1291" data-label="vetro di Murano, dal 1291" aria-labelledby="t-vetro">
+      <div class="plane copy" data-x="17" data-y="1" data-xm="0" data-ym="12">
+        <p class="ora">Murano, dal 1291</p>
+        <h2 id="t-vetro">Vetro di Murano e cristallo</h2>
+        <p class="lead">Accanto ai gioielli, bicchieri, calici e lampade: il vetro di Murano e gli oggetti di Zafferano, da guardare in controluce.</p>
+        <ul class="items">
+          <li>Murano</li>
+          <li>Zafferano</li>
+        </ul>
+      </div>
+      <figure class="plane photo tall" data-dz="560" data-x="-22" data-y="-3" data-xm="-8" data-ym="-22">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Bicchieri in vetro soffiato blu e azzurro, a righe, a spirale e a pois">
+        <img src="assets/foto/r20-vetro-blu.jpg" width="492" height="589" loading="lazy" decoding="async"
+             alt="Bicchieri in vetro soffiato blu e azzurro, a righe, a spirale e a pois">
+        </button>
+        <figcaption class="cartellino destra"><b>Bicchieri in vetro soffiato</b></figcaption>
+      </figure>
+      <figure class="plane photo small" data-dz="300" data-x="-35" data-y="23" data-xm="24" data-ym="-14">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Calice da vino in cristallo su fondo nero">
+        <img src="assets/foto/r19.jpg" width="685" height="630" loading="lazy" decoding="async"
+             alt="Calice da vino in cristallo su fondo nero">
+        </button>
+        <figcaption class="cartellino"><b>Calice in cristallo</b></figcaption>
+      </figure>
+      <div class="plane deco glints cool" data-dz="700" data-x="0" data-y="-8" data-xm="0" data-ym="-8" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+    </section>
+
+    <section class="ch" id="tavola" data-tone="tavola" data-z="6400" data-code="1300" data-label="porcellana, 1300 gradi" aria-labelledby="t-tavola">
+      <div class="plane copy center" data-x="0" data-y="4" data-xm="0" data-ym="10">
+        <p class="ora">Porcellana, 1300 gradi</p>
+        <h2 id="t-tavola">La tavola, la casa, i regali</h2>
+        <p class="lead">Porcellane di Capodimonte Sbordone, ceramiche Lamart, gli oggetti di Mario Luca Giusti, la biancheria di Le Jacquard Fran&ccedil;ais e le bomboniere Hervit. Per apparecchiare, per regalare, per le ricorrenze.</p>
+        <ul class="items">
+          <li>Sbordone</li>
+          <li>Lamart</li>
+          <li>Mario Luca Giusti</li>
+          <li>Le Jacquard Fran&ccedil;ais</li>
+          <li>Hervit</li>
+        </ul>
+      </div>
+      <figure class="plane photo frame" data-dz="260" data-x="-44" data-y="-6" data-xm="-40" data-ym="-28" data-ry="62">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Piatti in porcellana decorati con pietre preziose dipinte in blu">
+        <img src="assets/foto/r15.jpg" width="1180" height="1122" loading="lazy" decoding="async"
+             alt="Piatti in porcellana decorati con pietre preziose dipinte in blu">
+        </button>
+        <figcaption class="cartellino"><b>Piatti con pietre dipinte</b><span>Porcellana</span></figcaption>
+      </figure>
+      <figure class="plane photo frame" data-dz="620" data-x="44" data-y="-4" data-xm="40" data-ym="-30" data-ry="-62">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Piatti decorati e calici in cristallo apparecchiati su un tavolo scuro">
+        <img src="assets/foto/r14.jpg" width="1180" height="1122" loading="lazy" decoding="async"
+             alt="Piatti decorati e calici in cristallo apparecchiati su un tavolo scuro">
+        </button>
+        <figcaption class="cartellino"><b>La tavola apparecchiata</b></figcaption>
+      </figure>
+      <figure class="plane photo frame" data-dz="980" data-x="-52" data-y="-2" data-xm="-40" data-ym="-34" data-ry="62">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Tazza e barattolo in porcellana con decori floreali">
+        <img src="assets/foto/r18.jpg" width="593" height="621" loading="lazy" decoding="async"
+             alt="Tazza e barattolo in porcellana con decori floreali">
+        </button>
+        <figcaption class="cartellino"><b>Tazza e barattolo a fiori</b><span>Porcellana</span></figcaption>
       </figure>
     </section>
 
-    <section class="sezione bordo">
-      <div class="griglia">
-        <div class="intro">
-          <p class="occhiello">Due banchi, una sola idea di bellezza</p>
-          <h2 class="titolo-sezione">Il gioiello e l&rsquo;oggetto d&rsquo;arte stanno nella
-          stessa vetrina perch&eacute; nascono dallo stesso gesto: fare a mano una cosa
-          che dura.</h2>
-        </div>
-        <div class="intro-lato">
-          <p class="piccolo fumo">Sessant&rsquo;anni di attivit&agrave; nel centro storico,
-          una selezione che cambia con le stagioni e con gli autori che entrano in negozio.</p>
-        </div>
+    <section class="ch" id="visita" data-tone="visita" data-z="8000" data-code="Nº15" data-label="via Cesare Battisti 15" aria-labelledby="t-visita">
+      <div class="plane copy visit" data-x="-17" data-y="0" data-xm="0" data-ym="6">
+        <p class="ora">Nº 15</p>
+        <h2 id="t-visita">Vieni a trovarci in centro</h2>
+        <dl class="hours">
+          <div><dt>Indirizzo</dt><dd>Via Cesare Battisti 15, 41037 Mirandola (MO)</dd></div>
+          <div><dt>Telefono</dt><dd><a href="tel:+393477496401">347 749 6401</a></dd></div>
+          <div><dt>Email</dt><dd><a href="mailto:r_alessandra@me.com">r_alessandra@me.com</a></dd></div>
+        </dl>
+        <p class="note">Per orari, appuntamenti e richieste su un pezzo in particolare, telefona o scrivi ad Alessandra.</p>
+        <p class="actions">
+          <a class="btn" id="cta-call" href="tel:+393477496401">Chiama</a>
+          <a class="btn btn-ghost" href="mailto:r_alessandra@me.com">Scrivi</a>
+          <a class="btn btn-ghost" href="https://www.google.com/maps/search/?api=1&amp;query=Gioielleria+Rebucci+Via+Cesare+Battisti+Mirandola" target="_blank" rel="noopener">Apri in Google Maps</a>
+        </p>
+        <p class="fine"><a href="https://www.instagram.com/rebucci_gioielleria_mirandola/" target="_blank" rel="noopener">Instagram</a> &middot; <a href="https://www.facebook.com/rebuccigioielleria/" target="_blank" rel="noopener">Facebook</a></p>
       </div>
-
-      <div class="anime spazio-alto rivela">
-        <article class="anima">
-          <img src="assets/foto/r08.jpg" alt="Collezione di anelli in oro con pietre di colore" loading="lazy" decoding="async">
-          <h3>Preziosi</h3>
-          <p>Oro e argento firmati Mirco Visconti, Giovanni Raspini, Luiber e
-          Le Monde de Bijoux. Diamanti certificati, pietre di colore, fedi e
-          creazioni disegnate su misura al banco.</p>
-          <a class="oltre" href="gioielli.html">Vedi i gioielli</a>
-        </article>
-        <article class="anima">
-          <img src="assets/foto/r22.jpg" alt="Vetro artistico e complementi d'arredo contemporanei" loading="lazy" decoding="async">
-          <h3>Arte e design</h3>
-          <p>Vetri di Murano, ceramiche d&rsquo;autore, sculture e complementi
-          d&rsquo;arredo contemporanei. Pezzi unici o piccole serie, scelti
-          direttamente dagli atelier.</p>
-          <a class="oltre" href="arte-design.html">Vedi arte e design</a>
-        </article>
-      </div>
-    </section>
-
-    <section class="sezione verde bordo">
-      <div class="griglia">
-        <div class="intro">
-          <p class="citazione">Storia, competenza e ricercatezza: un punto di riferimento
-          nel cuore del centro storico.</p>
-          <p class="firma">Alessandra Rebucci</p>
-        </div>
-        <div class="intro-lato">
-          <p class="piccolo">Il negozio apre nel 1963 e non ha mai cambiato indirizzo.
-          Tre generazioni dietro allo stesso banco, con la stessa regola: si vende solo
-          quello che si comprerebbe.</p>
-          <p class="spazio-alto"><a class="oltre" href="gioielleria.html#storia">La storia</a></p>
-        </div>
-      </div>
-    </section>
-
-    <section class="sezione bordo">
-      <p class="occhiello">Marchi trattati</p>
-      <h2 class="titolo-sezione" style="max-inline-size:20ch">Quattro firme che scegliamo da anni.</h2>
-      <div class="catalogo spazio-alto rivela">
-        <div class="catalogo-riga">
-          <h3>Mirco Visconti</h3>
-          <p>Oro e diamanti di scuola valenzana: linee pulite, montature leggere,
-          un lavoro di incastonatura che si nota solo da vicino.</p>
-          <span class="luogo">Valenza</span>
-        </div>
-        <div class="catalogo-riga">
-          <h3>Giovanni Raspini</h3>
-          <p>Argento fuso a cera persa. Gioielli e oggetti per la casa che invecchiano
-          bene, dalla collana al portacandele.</p>
-          <span class="luogo">Toscana</span>
-        </div>
-        <div class="catalogo-riga">
-          <h3>Luiber</h3>
-          <p>Oreficeria italiana quotidiana: catene, girocolli e pendenti pensati
-          per essere portati tutti i giorni.</p>
-          <span class="luogo">Italia</span>
-        </div>
-        <div class="catalogo-riga">
-          <h3>Le Monde de Bijoux</h3>
-          <p>Bijoux di ricerca, colore e materiali insoliti. La parte pi&ugrave;
-          sperimentale della vetrina.</p>
-          <span class="luogo">Francia</span>
-        </div>
-      </div>
-      <p class="spazio-alto"><a class="oltre" href="marchi.html">Scheda dei marchi</a></p>
-    </section>
-
-    <section class="sezione bordo">
-      <div class="griglia">
-        <div class="intro">
-          <p class="occhiello">In vetrina questa stagione</p>
-          <h2 class="titolo-sezione">Una selezione dal negozio.</h2>
-        </div>
-      </div>
-      <div class="spazio-alto rivela">
-      <div class="vetrina">
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Bracciali in oro bianco e diamanti">
-            <img src="assets/foto/r11.jpg" alt="Bracciali in oro bianco con diamanti" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Bracciali in oro bianco e diamanti</figcaption>
-        </figure>
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Collana in oro bianco e diamanti">
-            <img src="assets/foto/r12.jpg" alt="Collana di diamanti su pietra" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Collana in oro bianco e diamanti</figcaption>
-        </figure>
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Collana con diamante, Mirco Visconti">
-            <img src="assets/foto/r03.jpg" alt="Collana Mirco Visconti su espositore" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Collana con diamante, Mirco Visconti</figcaption>
-        </figure>
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Calice in cristallo soffiato">
-            <img src="assets/foto/r19.jpg" alt="Calice in cristallo su fondo nero" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Calice in cristallo soffiato</figcaption>
-        </figure>
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Anelli con smeraldo e brillanti">
-            <img src="assets/foto/r10.jpg" alt="Anelli con smeraldo in astuccio" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Anelli con smeraldo e brillanti</figcaption>
-        </figure>
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Piatto in ceramica dipinta a mano">
-            <img src="assets/foto/r16.jpg" alt="Piatto in ceramica dipinta" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Piatto in ceramica dipinta a mano</figcaption>
-        </figure>
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Busti in resina colorata, edizione limitata">
-            <img src="assets/foto/r23.jpg" alt="Busti in resina blu e verde" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Busti in resina colorata, edizione limitata</figcaption>
-        </figure>
-        <figure class="lastra">
-          <button type="button" aria-label="Ingrandisci: Collana a catena in oro giallo">
-            <img src="assets/foto/r26.jpg" alt="Collana a catena in oro" loading="lazy" decoding="async">
-          </button>
-          <figcaption>Collana a catena in oro giallo</figcaption>
-        </figure>
-      </div>
-      </div>
-    </section>
-
-    <section class="sezione scuro bordo">
-      <div class="griglia">
-        <div class="intro">
-          <p class="occhiello">Laboratorio</p>
-          <h2 class="titolo-sezione">Quello che portate in negozio torna a funzionare.</h2>
-          <p class="spazio-alto piccolo fumo">Riparazioni, restauro di pezzi di famiglia,
-          incisioni a mano e a macchina, cambio pile e cinturini, valutazioni e permute.
-          Il preventivo si fa insieme, al banco.</p>
-          <p class="spazio-alto"><a class="oltre" href="servizi.html">Tutti i servizi</a></p>
-        </div>
-        <div class="intro-lato">
-          <dl class="scheda" style="grid-template-columns:1fr">
-            <div>
-              <dt>Dove</dt>
-              <dd>Via Cesare Battisti 15<br>41037 Mirandola (MO)</dd>
-              <dt>Quando</dt>
-              <dd>Marted&igrave; &ndash; sabato 9.30&ndash;12.30 e 16.00&ndash;19.30<br>
-                  Luned&igrave; solo pomeriggio &middot; domenica chiuso</dd>
-              <dt>Per parlarne</dt>
-              <dd><a href="tel:+393477496401">+39 347 749 6401</a></dd>
-            </div>
-          </dl>
-        </div>
-      </div>
+      <figure class="plane photo tall" data-dz="620" data-x="30" data-y="-2" data-xm="0" data-ym="-54">
+        <button class="zoom" type="button" aria-label="Ingrandisci: Anelli con pietre di colore sugli espositori neri della vetrina">
+        <img src="assets/foto/r08.jpg" width="1136" height="1079" loading="lazy" decoding="async"
+             alt="Anelli con pietre di colore sugli espositori neri della vetrina">
+        </button>
+        <figcaption class="cartellino"><b>Anelli con pietre di colore</b></figcaption>
+      </figure>
     </section>
 
   </main>
-
-  <footer class="piede scuro bordo">
-    <div class="piede-griglia">
-      <div>
-        <p class="marchio">Rebucci<small>Mirandola</small></p>
-        <p class="piccolo fumo spazio-alto" style="max-inline-size:30ch">
-          Gioielleria e oggettistica in centro storico dal 1963. Preziosi, vetri
-          d&rsquo;autore e complementi scelti uno per uno.</p>
-      </div>
-      <div>
-        <h4>Il negozio</h4>
-        <ul>
-          <li><a href="gioielleria.html">La gioielleria</a></li>
-          <li><a href="gioielli.html">Gioielli</a></li>
-          <li><a href="marchi.html">Marchi</a></li>
-          <li><a href="arte-design.html">Arte e design</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Utile</h4>
-        <ul>
-          <li><a href="regali.html">Idee regalo</a></li>
-          <li><a href="servizi.html">Servizi e laboratorio</a></li>
-          <li><a href="contatti.html">Orari e contatti</a></li>
-          <li><a href="contatti.html#scrivi">Scrivi ad Alessandra</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Dove siamo</h4>
-        <ul>
-          <li>Via Cesare Battisti 15<br>41037 Mirandola (MO)</li>
-          <li><a href="tel:+393477496401">+39 347 749 6401</a></li>
-          <li><a href="mailto:r_alessandra@me.com">r_alessandra@me.com</a></li>
-          <li><a href="https://www.instagram.com/rebucci_gioielleria_mirandola/"
-                 target="_blank" rel="noopener">Instagram</a> &middot;
-              <a href="https://www.facebook.com/rebuccigioielleria/"
-                 target="_blank" rel="noopener">Facebook</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="piede-basso">
-      <span>Gioielleria Rebucci di Alessandra Rebucci</span>
-      <span>Mockup di presentazione &mdash; foto di repertorio</span>
-    </div>
-  </footer>
-
-  <dialog id="luce" class="luce" closedby="any" aria-label="Immagine ingrandita">
-    <img alt="">
-    <p></p>
-  </dialog>
-
-  <nav class="contatti-fissi" aria-label="Contatti rapidi">
-    <a href="tel:+393477496401"><span aria-hidden="true">↗</span> Chiama</a>
-    <a href="https://wa.me/393477496401" target="_blank" rel="noopener"><span aria-hidden="true">↗</span> WhatsApp</a>
-    <a href="contatti.html"><span aria-hidden="true">↗</span> Orari</a>
-  </nav>
-
-  <script src="assets/js/site.js" defer></script>
+</div>
+<div class="vignette" aria-hidden="true"></div>
+<div class="sweep" aria-hidden="true"></div>
+<div class="ingresso" aria-hidden="true">
+  <p class="insegna">Rebucci</p>
+  <p class="insegna-sub">Gioielleria &middot; Mirandola &middot; dal 1964</p>
+  <p class="insegna-hint">Scorri per entrare</p>
+</div>
+<dialog class="luce" id="luce" closedby="any" aria-label="Foto ingrandita">
+  <button class="luce-chiudi btn btn-ghost" type="button">Chiudi</button>
+  <img alt="">
+  <p class="luce-testo"></p>
+</dialog>
+<div class="spacer" aria-hidden="true"></div>
 </body>
 </html>
