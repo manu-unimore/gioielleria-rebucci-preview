@@ -143,7 +143,7 @@ html:not(.is-3d) .brand-sub { display: none; }
 .frame { padding: clamp(.6rem, 1.4vw, 1.1rem); background: #132622; border: 2px solid #A67C3D; }
 .frame img { aspect-ratio: 1; outline: 1px solid color-mix(in srgb, #C9A25E 60%, transparent); outline-offset: -8px; }
 #tavola .copy { grid-column: 1 / -1; }
-.photo img { box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, .28); }
+.ricco .photo img { box-shadow: 0 .7rem 1.6rem rgba(0, 0, 0, .3); }
 
 .hours { margin: 1.2rem 0; display: grid; gap: .6rem; }
 .hours div { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .2rem 1.5rem; border-bottom: 1px solid color-mix(in srgb, var(--ink) 30%, transparent); padding-bottom: .5rem; }
@@ -169,6 +169,16 @@ address a { color: var(--accent); font-weight: 600; }
     radial-gradient(55% 60% at 78% 18%, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%),
     radial-gradient(90% 70% at 20% 100%, color-mix(in srgb, var(--sky-b) 90%, transparent), transparent 75%),
     linear-gradient(180deg, var(--sky-a), var(--sky-a) 35%, var(--sky-b));
+}
+/* grana da velluto: solo se il computer regge (classe .ricco) */
+.ricco .sky {
+  background:
+    linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .03) 48%, transparent 66%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .045 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(55% 60% at 78% 18%, color-mix(in srgb, var(--glow) 45%, transparent), transparent 70%),
+    radial-gradient(90% 70% at 20% 100%, color-mix(in srgb, var(--sky-b) 90%, transparent), transparent 75%),
+    linear-gradient(180deg, var(--sky-a), var(--sky-a) 35%, var(--sky-b));
+  background-size: auto, 220px 220px, auto, auto, auto;
 }
 .is-3d .sky:first-child { opacity: 1; }
 /* il mondo non intercetta i clic: li ricevono solo i piani vicini (.is-live) */
@@ -215,8 +225,9 @@ address a { color: var(--accent); font-weight: 600; }
 .glints i:nth-child(6) { left: 58%; top: 80%; width: 9vmin; height: 9vmin; }
 .glints.cool i:nth-child(odd) { background: radial-gradient(circle, color-mix(in srgb, #D8FFF6 55%, transparent), transparent 68%); }
 
-.is-3d .vignette {
-  position: fixed; inset: 0; pointer-events: none; z-index: 5;
+.is-3d .vignette { display: none; }
+.ricco .vignette {
+  display: block; position: fixed; inset: 0; pointer-events: none; z-index: 5;
   background: radial-gradient(120% 90% at 50% 50%, transparent 55%, rgba(3, 6, 10, .55));
 }
 
@@ -291,7 +302,6 @@ html:has(.luce[open]) { overflow: hidden; }
   position: absolute; left: 1.2rem; top: calc(100% + 1.4rem); margin: 0;
   min-width: 9rem; max-width: 15rem; padding: .45rem .75rem .5rem 1.25rem;
   background: #F4F0E6; color: #5A503E; border-radius: 3px 3px 3px 12px;
-  box-shadow: 0 .6rem 1.4rem rgba(0, 0, 0, .28);
   opacity: 0; transform: translateY(-.6rem) rotate(-3deg); transform-origin: 1.25rem 0;
   transition: opacity .45s ease, transform .7s cubic-bezier(.2, .8, .2, 1);
 }
@@ -320,10 +330,9 @@ html:has(.luce[open]) { overflow: hidden; }
 @property --mx { syntax: "<number>"; inherits: true; initial-value: .3; }
 @property --my { syntax: "<number>"; inherits: true; initial-value: .25; }
 .is-3d .zoom { position: relative; }
-.is-3d .zoom::after {
+.ricco .zoom::after {
   content: ""; position: absolute; inset: 0; pointer-events: none;
-  background: radial-gradient(45% 45% at calc(var(--mx) * 100%) calc(var(--my) * 100%), rgba(255, 255, 255, .32), transparent 70%);
-  mix-blend-mode: overlay;
+  background: radial-gradient(45% 45% at calc(var(--mx) * 100%) calc(var(--my) * 100%), rgba(255, 255, 255, .18), transparent 70%);
 }
 
 /* ---------- Riflesso nel passaggio tra vetrine ---------- */
@@ -331,12 +340,9 @@ html:not(.is-3d) .velo, html:not(.is-3d) .ingresso, html:not(.is-3d) .chiusura {
 /* vetro appannato: compare solo a metà del passaggio tra due vetrine */
 .is-3d .velo {
   position: fixed; inset: 0; z-index: 6; pointer-events: none; opacity: 0; visibility: hidden;
-  -webkit-backdrop-filter: blur(14px) saturate(.85); backdrop-filter: blur(14px) saturate(.85);
-  background: radial-gradient(120% 100% at 50% 50%, rgba(235, 240, 238, .08), rgba(235, 240, 238, .2));
-}
-/* telefono e touch: niente sfocatura in tempo reale (è la cosa più pesante), solo nebbia */
-@media (hover: none), (pointer: coarse) {
-  .is-3d .velo { -webkit-backdrop-filter: none; backdrop-filter: none; background: radial-gradient(120% 100% at 50% 50%, rgba(214, 222, 219, .42), rgba(214, 222, 219, .62)); }
+  background:
+    radial-gradient(120% 100% at 50% 50%, rgba(226, 233, 230, .35), rgba(226, 233, 230, .62)),
+    linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, .25) 50%, transparent 70%);
 }
 
 /* ---------- Scritta dorata sul vetro d'ingresso ---------- */
@@ -345,8 +351,7 @@ html:not(.is-3d) .velo, html:not(.is-3d) .ingresso, html:not(.is-3d) .chiusura {
   display: grid; place-content: center; justify-items: center; gap: .6rem; text-align: center;
   background:
     linear-gradient(115deg, transparent 18%, rgba(255, 255, 255, .08) 24%, transparent 31%, transparent 57%, rgba(255, 255, 255, .05) 61%, transparent 66%),
-    radial-gradient(120% 90% at 50% 42%, rgba(10, 24, 20, .8), rgba(4, 10, 9, .95));
-  backdrop-filter: blur(14px);
+    radial-gradient(120% 90% at 50% 42%, rgba(9, 22, 19, .93), rgba(4, 10, 9, .985));
   transform-origin: 50% 45%;
 }
 .insegna {
@@ -386,12 +391,6 @@ html:not(.is-3d) .velo, html:not(.is-3d) .ingresso, html:not(.is-3d) .chiusura {
   .is-3d .clock { display: none; }
 }
 
-/* Telefono: niente sfocatura a tutto schermo sull'ingresso (pesante), basta un vetro più scuro */
-@media (max-width: 760px), (max-aspect-ratio: 4/5) {
-  .is-3d .ingresso { backdrop-filter: none; background:
-    linear-gradient(115deg, transparent 18%, rgba(255, 255, 255, .07) 24%, transparent 31%),
-    radial-gradient(120% 90% at 50% 42%, rgba(10, 24, 20, .92), rgba(4, 10, 9, .98)); }
-}
 
 /* Link alla versione semplice: solo nella versione in profondità */
 .semplice { margin: .8rem 0 0; font-size: .85rem; }
@@ -408,7 +407,8 @@ html.is-3d, html.is-3d body { overscroll-behavior: none; }
 html.is-3d body { background: var(--sky-b); transition: background-color .6s ease; }
 
 /* ---------- Mappa di "Dove siamo" (dati © OpenStreetMap) ---------- */
-.mappa { background: #0E1D19; border: 2px solid #A67C3D; padding: clamp(.45rem, 1vw, .8rem); box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, .3); }
+.mappa { background: #0E1D19; border: 2px solid #A67C3D; padding: clamp(.45rem, 1vw, .8rem); }
+.ricco .mappa { box-shadow: 0 1.4rem 3rem rgba(0, 0, 0, .3); }
 .is-3d .mappa { width: min(34vw, 30rem); }
 .mappa-link { display: block; }
 .mappa-svg { display: block; width: 100%; height: auto; aspect-ratio: 1; background: #0B1714; transition: filter .3s ease; }
@@ -464,19 +464,10 @@ html.is-3d body { background: var(--sky-b); transition: background-color .6s eas
 /* ---------- Gemme che ruotano e catturano la luce ---------- */
 @keyframes gira { from { transform: perspective(700px) rotateY(0deg); } to { transform: perspective(700px) rotateY(360deg); } }
 @keyframes brilla { 0%, 100% { opacity: .55; } 50% { opacity: 1; } }
-.is-3d .gem svg { animation: gira 16s linear infinite, brilla 5s ease-in-out infinite; }
+.ricco .gem svg { animation: gira 16s linear infinite, brilla 5s ease-in-out infinite; }
 .is-3d .gem.small-gem svg { animation-duration: 11s, 3.6s; animation-direction: reverse, normal; }
 .calmo .gem svg { animation: none; }
 
-/* ---------- Velluto sulle vetrine scure ---------- */
-.is-3d .sky:is([data-tone="soglia"], [data-tone="oro"], [data-tone="vetro"], [data-tone="instagram"], [data-tone="visita"])::after {
-  content: ""; position: absolute; inset: 0; pointer-events: none;
-  background:
-    linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, .035) 48%, transparent 66%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: auto, 220px 220px;
-  opacity: .045; 
-}
 
 /* ---------- Insegna d'ingresso in serif da negozio storico ---------- */
 .insegna {
@@ -495,7 +486,6 @@ html.is-3d body { background: var(--sky-b); transition: background-color .6s eas
     linear-gradient(0deg, transparent 47%, rgba(255, 255, 255, .95) 50%, transparent 53%);
   -webkit-mask: radial-gradient(circle, #000 18%, transparent 68%); mask: radial-gradient(circle, #000 18%, transparent 68%);
   filter: drop-shadow(0 0 5px rgba(255, 240, 200, 1));
-  mix-blend-mode: screen;
   animation: stella 1.2s ease-in-out forwards;
 }
 @keyframes stella {
@@ -546,8 +536,9 @@ html:not(.is-3d) .animata { display: block; margin: .8rem 0 0; font-size: .85rem
 .feed-griglia { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(.4rem, 1vw, .75rem); }
 .feed-griglia a {
   position: relative; display: block; overflow: hidden; aspect-ratio: 1;
-  border-radius: 3px; background: #1A1210; box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, .3);
+  border-radius: 3px; background: #1A1210;
 }
+.ricco .feed-griglia a { box-shadow: 0 1rem 2.4rem rgba(0, 0, 0, .3); }
 .feed-griglia img { width: 100%; height: 100%; object-fit: cover; box-shadow: none; transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
 .feed-velo {
   position: absolute; inset: 0; display: grid; place-items: center; color: #FFF3EE;
@@ -582,11 +573,17 @@ html:not(.is-3d) .animata { display: block; margin: .8rem 0 0; font-size: .85rem
 .m-onda {
   position: absolute; left: 50%; top: 50%; width: 14%; aspect-ratio: 1; margin: -7% 0 0 -7%;
   border: 2px solid #F3C56C; border-radius: 50%; background: rgba(243, 197, 108, .18);
-  pointer-events: none; animation: pin 2.4s ease-out infinite;
+  pointer-events: none;
 }
+.ricco .m-onda { animation: pin 2.4s ease-out infinite; }
 /* touch: niente fusioni di colore e filtri sui livelli che si muovono */
 @media (hover: none), (pointer: coarse) {
   .is-3d .zoom::after { display: none; }
-  .stella { filter: none; mix-blend-mode: normal; }
+  .stella { filter: none; }
   .is-3d .chiusura { -webkit-backdrop-filter: none; backdrop-filter: none; }
 }
+
+/* Ombra più morbida sulle foto solo in modalità ricca */
+.ricco .photo img { box-shadow: 0 1.2rem 2.6rem rgba(0, 0, 0, .3); }
+
+.ricco .cartellino { box-shadow: 0 .6rem 1.4rem rgba(0, 0, 0, .28); }

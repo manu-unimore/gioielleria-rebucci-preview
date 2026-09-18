@@ -51,8 +51,19 @@
   const skies = [...document.querySelectorAll('.sky')];
   // Rotella: camera morbida. Dito: lo scorrimento del telefono è già fluido, la camera lo segue da vicino.
   const SEGUI = matchMedia('(pointer: coarse)').matches ? 16 : 5.5;
+  const [cieloA, cieloB] = skies;
   // colori della barra del browser letti una volta sola (niente getComputedStyle durante lo scroll)
-  const coloreTono = Object.fromEntries(skies.map((s) => [s.dataset.tone, getComputedStyle(s).getPropertyValue('--sky-a').trim()]));
+  const coloreTono = {};
+  {
+    const misura = document.createElement('div');
+    misura.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none';
+    document.body.append(misura);
+    for (const el of document.querySelectorAll('.ch')) {
+      misura.dataset.tone = el.dataset.tone;
+      coloreTono[el.id] = getComputedStyle(misura).getPropertyValue('--sky-a').trim();
+    }
+    misura.remove();
+  }
   const clock = document.querySelector('.clock');
   const flaps = [...clock.querySelectorAll('.flap')];
   const PERSP = 1000; // distanza dell'osservatore in px, come la vecchia perspective CSS
@@ -159,10 +170,14 @@
     let t = next ? (cam - chapters[i].z) / (next.z - chapters[i].z) : 0;
     t = Math.min(Math.max((t - 0.2) / 0.6, 0), 1);
     t = t * t * (3 - 2 * t);
-    skies.forEach((s, j) => {
-      const v = j === i ? 1 : j === i + 1 ? t : 0;
-      if (s._o !== v) { s.style.opacity = v; s._o = v; }
-    });
+    // Due soli livelli a tutto schermo: quello sotto tiene la vetrina corrente,
+    // quello sopra la successiva e sale d'opacità. Più livelli facevano perdere fotogrammi.
+    const idA = chapters[i].id;
+    const idB = next ? next.id : idA;
+    if (cieloA.dataset.tone !== idA) cieloA.dataset.tone = idA;
+    if (cieloB.dataset.tone !== idB) cieloB.dataset.tone = idB;
+    const vB = next ? t : 0;
+    if (cieloB._o !== vB) { cieloB.style.opacity = vB; cieloB.style.visibility = vB > 0.002 ? 'visible' : 'hidden'; cieloB._o = vB; }
 
     // Vetro appannato che nasconde il cambio di colore a metà del passaggio
     if (velo && velo._t !== t) {
@@ -277,6 +292,7 @@
     vy += (tvy - vy) * k;
     if (Math.abs(tvx - vx) < 0.01 && Math.abs(tvy - vy) < 0.01) { vx = tvx; vy = tvy; }
     render();
+    qualita(dt);
     if (cam !== target || vx !== tvx || vy !== tvy) {
       raf = requestAnimationFrame(tick);
     } else {
@@ -285,6 +301,21 @@
       if (Math.abs(chapters[current].z - cam) < 60 && location.hash !== `#${id}`) {
         history.replaceState(null, '', `${location.pathname}${location.search}#${id}`);
       }
+    }
+  }
+
+  // Effetti extra (grana, vignetta, riflesso, stelle) solo se i fotogrammi restano veloci.
+  // Si parte leggeri: meglio fluido per tutti che bello e a scatti.
+  let veloci = 0, lenti = 0, bocciato = false;
+  function qualita(dt) {
+    if (bocciato) return;
+    const ms = dt * 1000;
+    if (ms < 15) { veloci++; lenti = 0; } else if (ms > 24) { lenti++; veloci = 0; }
+    if (!root.classList.contains('ricco')) {
+      if (veloci > 150) { root.classList.add('ricco'); veloci = 0; }
+    } else if (lenti > 30) {
+      root.classList.remove('ricco');
+      bocciato = true; // niente rimbalzi avanti e indietro
     }
   }
 
@@ -339,6 +370,7 @@
   }
   function brilla() {
     if (document.hidden || raf) return;
+    if (!root.classList.contains('ricco')) return;
     const vivi = conBrillio.filter((b) => b.closest('.plane').classList.contains('is-live'));
     if (!vivi.length) return;
     const b = vivi[Math.floor(Math.random() * vivi.length)];
