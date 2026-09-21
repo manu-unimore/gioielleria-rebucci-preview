@@ -25,7 +25,7 @@
     const lTesto = luce.querySelector('.luce-testo');
     document.querySelectorAll('.photo .zoom').forEach((b) => b.addEventListener('click', () => {
       const img = b.querySelector('img');
-      lImg.src = img.currentSrc || img.src;
+      lImg.src = img.dataset.full || img.currentSrc || img.src;
       lImg.alt = img.alt;
       const t = b.closest('figure').querySelector('.cartellino');
       lTesto.textContent = t ? [...t.children].map((c) => c.textContent).filter(Boolean).join(' · ') : img.alt;
